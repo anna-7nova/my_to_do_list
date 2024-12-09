@@ -1,5 +1,5 @@
 import React from 'react';
-import { TaskType } from '../App';
+import { FilterValuesType, TaskType } from '../App';
 import { Button } from './Button';
 import {TodoComponentHeader} from './TodoComponentHeader'
 import { AddForm } from './AddForm';
@@ -8,6 +8,8 @@ import { FiltersButtons } from './FiltersButtons';
 type TodoListPropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (taskId: number) => void
+    changeTodoListFilter: (nextFilter: FilterValuesType) => void
 
 }
 
@@ -22,6 +24,7 @@ export const TodoList = (props: TodoListPropsType) => {
                         <li>
                             <input type="checkbox" checked={t.isDone} /> 
                             <span>{t.title}</span>
+                            <Button onClickHandler={() => props.removeTask(t.id)} title={"x"}/>
                         </li>
                         )
                 })
@@ -33,7 +36,7 @@ export const TodoList = (props: TodoListPropsType) => {
             <TodoComponentHeader title={props.title}/>
             <AddForm/>
             {taskList}
-            <FiltersButtons/>
+            <FiltersButtons changeTodoListFilter={props.changeTodoListFilter}/>
         </div>
     );
 }
